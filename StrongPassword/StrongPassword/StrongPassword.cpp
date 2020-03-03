@@ -5,6 +5,34 @@
 
 using namespace std;
 
+bool strongPassword(char* password, bool* errors);
+
+int main()
+{
+	cout << "Password creation. The password must contain:\n-More than 8 characters\n-At least one lowercase letter\n-At least one uppercase letter";
+	cout << "\n-At least one digit\n-At least one special symbol\n";
+	char password[100];
+	cout << "You password: ";
+
+	/*By default all errors are true. By checking the entering programm will eliminate them if the password satisfies corresponding reqirement*/
+	bool errors[5] = { 1,1,1,1,1 };  
+
+	cin.ignore(cin.rdbuf()->in_avail());
+	cin.getline(password, 100);
+
+	if (strongPassword(password, errors) == true) { cout << "Good password. Well done!\n"; }
+	else
+	{
+		/*Errors output*/
+		cout << "Bad password.\n";
+		cout << (errors[0] == true ? "\nThe password must contain more than 8 characters." : "\nLength is good.") << endl;
+		cout << (errors[1] == true ? "\nThe password must contain at least one lowercase letter." : "\nHas a lowercase letter.") << endl;
+		cout << (errors[2] == true ? "\nThe password must contain at least one uppercase letter." : "\nHas an uppercase letter.") << endl;
+		cout << (errors[3] == true ? "\nThe password must contain at least one digit." : "\nHas a digit.") << endl;
+		cout << (errors[4] == true ? "\nThe password must contain at least one special symbol." : "\nHas a special symbol.") << endl;
+	}
+}
+
 bool strongPassword(char* password, bool* errors)
 {
 	/*The password is good by default. To make a bad password at least one error must be present.*/
@@ -42,31 +70,4 @@ bool strongPassword(char* password, bool* errors)
 
 	return result;
 }
-
-int main()
-{
-	cout << "Password creation. The password must contain:\n-More than 8 characters\n-At least one lowercase letter\n-At least one uppercase letter";
-	cout << "\n-At least one digit\n-At least one special symbol\n";
-	char password[100];
-	cout << "You password: ";
-
-	/*By default all errors are true. By checking the entering programm will eliminate them if the password satisfies corresponding reqirement*/
-	bool errors[5] = { 1,1,1,1,1 };  
-
-	cin.ignore(cin.rdbuf()->in_avail());
-	cin.getline(password, 100);
-
-	if (strongPassword(password, errors)) { cout << "Good password. Well done!\n"; }
-	else
-	{
-		/*Errors output*/
-		cout << "Bad password.\n";
-		cout << (errors[0] == true ? "\nThe password must contain more than 8 characters." : "\nLength is good.") << endl;
-		cout << (errors[1] == true ? "\nThe password must contain at least one lowercase letter." : "\nHas a lowercase letter.") << endl;
-		cout << (errors[2] == true ? "\nThe password must contain at least one uppercase letter." : "\nHas an uppercase letter.") << endl;
-		cout << (errors[3] == true ? "\nThe password must contain at least one digit." : "\nHas a digit.") << endl;
-		cout << (errors[4] == true ? "\nThe password must contain at least one special symbol." : "\nHas a special symbol.") << endl;
-	}
-}
-
 
