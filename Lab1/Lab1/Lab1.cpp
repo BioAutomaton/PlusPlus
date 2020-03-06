@@ -3,7 +3,7 @@
 #include <time.h>       
 #include <string>
 #include <string.h>
-#include <ctype.h>
+//#include <ctype.h>
 
 using namespace std;
 
@@ -247,63 +247,63 @@ void HighLevel()
 	};
 
 	const int N = 10;
-	ZNAK Crowd[N];
+	ZNAK crowd[N];
 
 	for (int person = 0; person < N; person++)
 	{
 		/*First name generator*/
 		switch (rand() % 10)
 		{
-		case 0: Crowd[person].name = "Matthew"; break;
-		case 1: Crowd[person].name = "Sam"; break;
-		case 2: Crowd[person].name = "Laura"; break;
-		case 3: Crowd[person].name = "Taliesin"; break;
-		case 4: Crowd[person].name = "Ashley"; break;
-		case 5: Crowd[person].name = "Travis"; break;
-		case 6: Crowd[person].name = "Marisha"; break;
-		case 7: Crowd[person].name = "Liam"; break;
-		case 8: Crowd[person].name = "Brian"; break;
-		case 9: Crowd[person].name = "Felicia"; break;
-		default:Crowd[person].name = "John"; break;
+		case 0: crowd[person].name = "Matthew"; break;
+		case 1: crowd[person].name = "Sam"; break;
+		case 2: crowd[person].name = "Laura"; break;
+		case 3: crowd[person].name = "Taliesin"; break;
+		case 4: crowd[person].name = "Ashley"; break;
+		case 5: crowd[person].name = "Travis"; break;
+		case 6: crowd[person].name = "Marisha"; break;
+		case 7: crowd[person].name = "Liam"; break;
+		case 8: crowd[person].name = "Brian"; break;
+		case 9: crowd[person].name = "Felicia"; break;
+		default:crowd[person].name = "John"; break;
 		}
 		/*Third name generator*/
 		switch (rand() % 10)
 		{
-		case 0: Crowd[person].name += " Mercer"; break;
-		case 1: Crowd[person].name += " Riegel"; break;
-		case 2: Crowd[person].name += " Bailey"; break;
-		case 3: Crowd[person].name += " Jaffe"; break;
-		case 4: Crowd[person].name += " Johnson"; break;
-		case 5: Crowd[person].name += " Willingham"; break;
-		case 6: Crowd[person].name += " Ray"; break;
-		case 7: Crowd[person].name += " O'Brien"; break;
-		case 8: Crowd[person].name += " Foster"; break;
-		case 9: Crowd[person].name += " Day"; break;
-		default:Crowd[person].name += " Doe"; break;
+		case 0: crowd[person].name += " Mercer"; break;
+		case 1: crowd[person].name += " Riegel"; break;
+		case 2: crowd[person].name += " Bailey"; break;
+		case 3: crowd[person].name += " Jaffe"; break;
+		case 4: crowd[person].name += " Johnson"; break;
+		case 5: crowd[person].name += " Willingham"; break;
+		case 6: crowd[person].name += " Ray"; break;
+		case 7: crowd[person].name += " O'Brien"; break;
+		case 8: crowd[person].name += " Foster"; break;
+		case 9: crowd[person].name += " Day"; break;
+		default:crowd[person].name += " Doe"; break;
 		}
 		/*Birthday generator*/
 		do
 		{
-			Crowd[person].birthday.day = rand() % 31 + 1;
-			Crowd[person].birthday.month = rand() % 12 + 1;
-			Crowd[person].birthday.year = rand() % 70 + 1950;
-		} while (!Crowd[person].birthday.isCorrect());
+			crowd[person].birthday.day = rand() % 31 + 1;
+			crowd[person].birthday.month = rand() % 12 + 1;
+			crowd[person].birthday.year = rand() % 70 + 1950;
+		} while (!crowd[person].birthday.isCorrect());
 		/*Zodiac sign determiner*/
-		switch (Crowd[person].birthday.month)
+		switch (crowd[person].birthday.month)
 		{
-		case 1: Crowd[person].zodiac = (Crowd[person].birthday.day >= 20 ? "Aquarius" : "Capricorn"); break;
-		case 2: Crowd[person].zodiac = (Crowd[person].birthday.day >= 19 ? "Pisces" : "Aquarius"); break;
-		case 3: Crowd[person].zodiac = (Crowd[person].birthday.day >= 21 ? "Aries" : "Pisces"); break;
-		case 4: Crowd[person].zodiac = (Crowd[person].birthday.day >= 20 ? "Taurus" : "Aries"); break;
-		case 5: Crowd[person].zodiac = (Crowd[person].birthday.day >= 21 ? "Gemini" : "Taurus"); break;
-		case 6: Crowd[person].zodiac = (Crowd[person].birthday.day >= 21 ? "Cancer" : "Gemini"); break;
-		case 7: Crowd[person].zodiac = (Crowd[person].birthday.day >= 23 ? "Leo" : "Cancer"); break;
-		case 8: Crowd[person].zodiac = (Crowd[person].birthday.day >= 23 ? "Virgo" : "Leo"); break;
-		case 9: Crowd[person].zodiac = (Crowd[person].birthday.day >= 23 ? "Libra" : "Virgo"); break;
-		case 10: Crowd[person].zodiac = (Crowd[person].birthday.day >= 23 ? "Scorpio" : "Libra"); break;
-		case 11: Crowd[person].zodiac = (Crowd[person].birthday.day >= 22 ? "Sagittarius" : "Scorpio"); break;
-		case 12: Crowd[person].zodiac = (Crowd[person].birthday.day >= 22 ? "Capricorn" : "Sagittarius"); break;
-		default:Crowd[person].zodiac = "N/A"; break;
+		case 1: crowd[person].zodiac = (crowd[person].birthday.day >= 20 ? "Aquarius" : "Capricorn"); break;
+		case 2: crowd[person].zodiac = (crowd[person].birthday.day >= 19 ? "Pisces" : "Aquarius"); break;
+		case 3: crowd[person].zodiac = (crowd[person].birthday.day >= 21 ? "Aries" : "Pisces"); break;
+		case 4: crowd[person].zodiac = (crowd[person].birthday.day >= 20 ? "Taurus" : "Aries"); break;
+		case 5: crowd[person].zodiac = (crowd[person].birthday.day >= 21 ? "Gemini" : "Taurus"); break;
+		case 6: crowd[person].zodiac = (crowd[person].birthday.day >= 21 ? "Cancer" : "Gemini"); break;
+		case 7: crowd[person].zodiac = (crowd[person].birthday.day >= 23 ? "Leo" : "Cancer"); break;
+		case 8: crowd[person].zodiac = (crowd[person].birthday.day >= 23 ? "Virgo" : "Leo"); break;
+		case 9: crowd[person].zodiac = (crowd[person].birthday.day >= 23 ? "Libra" : "Virgo"); break;
+		case 10: crowd[person].zodiac = (crowd[person].birthday.day >= 23 ? "Scorpio" : "Libra"); break;
+		case 11: crowd[person].zodiac = (crowd[person].birthday.day >= 22 ? "Sagittarius" : "Scorpio"); break;
+		case 12: crowd[person].zodiac = (crowd[person].birthday.day >= 22 ? "Capricorn" : "Sagittarius"); break;
+		default:crowd[person].zodiac = "N/A"; break;
 		}
 	}
 	/*Bubble sort by birthday*/
@@ -312,27 +312,27 @@ void HighLevel()
 		for (int i = 0; i < N - 1; i++)
 		{
 			ZNAK temp;
-			if (Crowd[i].birthday.year > Crowd[i + 1].birthday.year)
+			if (crowd[i].birthday.year > crowd[i + 1].birthday.year)
 			{
-				temp = Crowd[i];
-				Crowd[i] = Crowd[i + 1];
-				Crowd[i + 1] = temp;
+				temp = crowd[i];
+				crowd[i] = crowd[i + 1];
+				crowd[i + 1] = temp;
 			}
-			else if (Crowd[i].birthday.year == Crowd[i + 1].birthday.year)
+			else if (crowd[i].birthday.year == crowd[i + 1].birthday.year)
 			{
-				if (Crowd[i].birthday.month > Crowd[i + 1].birthday.month)
+				if (crowd[i].birthday.month > crowd[i + 1].birthday.month)
 				{
-					temp = Crowd[i];
-					Crowd[i] = Crowd[i + 1];
-					Crowd[i + 1] = temp;
+					temp = crowd[i];
+					crowd[i] = crowd[i + 1];
+					crowd[i + 1] = temp;
 				}
-				else if (Crowd[i].birthday.month == Crowd[i + 1].birthday.month)
+				else if (crowd[i].birthday.month == crowd[i + 1].birthday.month)
 				{
-					if (Crowd[i].birthday.day > Crowd[i + 1].birthday.day)
+					if (crowd[i].birthday.day > crowd[i + 1].birthday.day)
 					{
-						temp = Crowd[i];
-						Crowd[i] = Crowd[i + 1];
-						Crowd[i + 1] = temp;
+						temp = crowd[i];
+						crowd[i] = crowd[i + 1];
+						crowd[i + 1] = temp;
 					}
 				}
 			}
@@ -343,7 +343,7 @@ void HighLevel()
 	cout << "\n\nThe crew:\n";
 	for (int person = 0; person < N; person++)
 	{
-		printf("%-20s Sign: %-12s  Birthday: %02d.%02d.%d\n", &Crowd[person].name[0], &Crowd[person].zodiac[0], Crowd[person].birthday.day, Crowd[person].birthday.month, Crowd[person].birthday.year);
+		printf("%-20s Sign: %-12s  Birthday: %02d.%02d.%d\n", &crowd[person].name[0], &crowd[person].zodiac[0], crowd[person].birthday.day, crowd[person].birthday.month, crowd[person].birthday.year);
 	}
 
 	/*Sign entering*/
@@ -356,10 +356,10 @@ void HighLevel()
 	for (int person = 0; person < N; person++)
 	{
 		/*If there is, print info about that person*/
-		if (_stricmp(&entering[0], &Crowd[person].zodiac[0]) == 0)
+		if (_stricmp(&entering[0], &crowd[person].zodiac[0]) == 0)
 		{
 			isMatch = true;
-			printf("%-20s Sign: %-12s  Birthday: %02d.%02d.%d\n", &Crowd[person].name[0], &Crowd[person].zodiac[0], Crowd[person].birthday.day, Crowd[person].birthday.month, Crowd[person].birthday.year);
+			printf("%-20s Sign: %-12s  Birthday: %02d.%02d.%d\n", &crowd[person].name[0], &crowd[person].zodiac[0], crowd[person].birthday.day, crowd[person].birthday.month, crowd[person].birthday.year);
 		}
 	}
 

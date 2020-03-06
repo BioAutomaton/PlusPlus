@@ -5,7 +5,7 @@
 
 using namespace std;
 
-bool strongPassword(char* password, bool* errors);
+bool strongPassword(char* password, bool* errors, const int SIZE);
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
 	cin.ignore(cin.rdbuf()->in_avail());
 	cin.getline(password, 100);
 
-	if (strongPassword(password, errors) == true) { cout << "Good password. Well done!\n"; }
+	if (strongPassword(password, errors, 5) == true) { cout << "Good password. Well done!\n"; }
 	else
 	{
 		/*Errors output*/
@@ -33,7 +33,7 @@ int main()
 	}
 }
 
-bool strongPassword(char* password, bool* errors)
+bool strongPassword(char* password, bool* errors, const int SIZE)
 {
 	/*The password is good by default. To make a bad password at least one error must be present.*/
 	bool result = true;
@@ -45,7 +45,7 @@ bool strongPassword(char* password, bool* errors)
 	for (int i = 0; i < strlen(password); i++)
 	{
 		/*Lowercase check*/
-		if (islower(password[i]))
+		if (errors[1] != false && islower(password[i]))
 		{
 			errors[1] = false;
 		}
@@ -65,9 +65,14 @@ bool strongPassword(char* password, bool* errors)
 			errors[4] = false;
 		}
 	}
-	/*If all errors are false, the password remains good. If at least one is true, the password becomes bad.*/
-	if (errors[0] || errors[1] || errors[2] || errors[3] || errors[4]) { result = false; }
 
-	return result;
+	/*If all errors are false, the password remains good. If at least one is true, the password becomes bad.*/
+	bool res = false;
+	for (size_t i = 0; i < SIZE; i++)
+	{
+		res |= errors[i]; // res = res | errors[i];
+	}
+
+	return res;
 }
 
