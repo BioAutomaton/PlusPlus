@@ -15,7 +15,6 @@ struct Computer {
 	int price;
 };
 
-
 struct Date {
 	short day;
 	short month;
