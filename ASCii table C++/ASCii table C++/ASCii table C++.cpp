@@ -6,5 +6,6 @@ int main()
 	{
 		printf("%02d\t%c\n", i, i);
 	}
+	system("pause");
 }
 
