@@ -8,7 +8,7 @@
 using namespace std;
 
 
-
+/*Struct to store date*/
 struct Date {
 	short day;
 	short month;
@@ -78,7 +78,7 @@ bool Date::isCorrect()
 	return result;
 }
 
-
+/*Struct to store name data*/
 struct Name
 {
 	string firstName;
@@ -87,6 +87,7 @@ struct Name
 	void randomizer(string gender);
 };
 
+/*Function to generate name*/
 void Name::randomizer(string gender)
 {
 	/*First name gender-based generator*/
@@ -151,6 +152,7 @@ void Name::randomizer(string gender)
 
 }
 
+/*Struct to store address data*/
 struct Address
 {
 	string country;
@@ -163,6 +165,7 @@ struct Address
 	void getAddress();
 };
 
+/*Function to emulate data import from a database*/
 void Address::getAddress()
 {
 	/*Country*/
@@ -243,6 +246,7 @@ void Address::getAddress()
 
 }
 
+/*Struct to store medical data*/
 struct Medical
 {
 	int hospital = 0;
@@ -255,6 +259,7 @@ struct Medical
 
 };
 
+/*Function to emulate medical data import from a database*/
 void Medical::getMedical()
 {
 	hospital = rand() % 20 + 1;
@@ -279,6 +284,7 @@ void Medical::getMedical()
 	}
 }
 
+/*Struct to store data of patient, uncluding data from previous structrues*/
 struct Patient
 {
 	Name name = { "John", "J.", "Doe" };
@@ -295,6 +301,7 @@ struct Patient
 	void printPatientData();
 };
 
+/*Function to emulate personal data import from a database*/
 void Patient::getInfo()
 {
 	/*Gender*/
@@ -350,6 +357,7 @@ void Patient::getInfo()
 
 }
 
+/*Function to print all information of current patient*/
 void Patient::printPatientData()
 {
 	cout << "Name: " << name.firstName << " " << name.middleName << " " << name.lastName << endl;
@@ -366,6 +374,7 @@ void Patient::printPatientData()
 	cout << "\n----------------------------------\n\n";
 }
 
+/*Function to foolproof numeric entering*/
 int getInteger(const char* text)
 {
 	bool isError = false;
@@ -391,8 +400,14 @@ int getInteger(const char* text)
 	return number;
 }
 
+/*Function to increase number of patients in a dynamic array*/
 void getNewPatients(Patient*& array, int oldSize, int newSize)
 {
+	/*It just creates new array that bigger than previous*/
+	/*Then copies all patient data to a new array and deletes old one*/
+	/*New parients recieve information by the same way*/
+
+
 	Patient* new_array = new Patient[newSize];
 	for (int i = 0; i < oldSize; i++)
 	{
@@ -411,8 +426,10 @@ void getNewPatients(Patient*& array, int oldSize, int newSize)
 	array = new_array;
 }
 
+/*Function to search patients by specific parameter*/
 void searchBy(Patient*& database, int databaseSize, int parameter)
 {
+	/*Search by name*/
 	bool isFound = false;
 	if (parameter == 1)
 	{
@@ -430,6 +447,7 @@ void searchBy(Patient*& database, int databaseSize, int parameter)
 			}
 		}
 	}
+	/*Search by birthday (exact date)*/
 	else if (parameter == 2)
 	{
 		Date dateEntering;
@@ -454,6 +472,7 @@ void searchBy(Patient*& database, int databaseSize, int parameter)
 			}
 		}
 	}
+	/*Search by ZIP-code*/
 	else if (parameter == 3)
 	{
 		cout << "Enter ZIP-code to perform search by:";
@@ -469,6 +488,7 @@ void searchBy(Patient*& database, int databaseSize, int parameter)
 			}
 		}
 	}
+	/*Search by diagnosis*/
 	else if (parameter == 4)
 	{
 		cout << "Enter diagnosis to perform search by:";
