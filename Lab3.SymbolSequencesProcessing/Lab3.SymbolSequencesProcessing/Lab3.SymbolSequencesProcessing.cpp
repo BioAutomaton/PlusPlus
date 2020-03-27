@@ -62,63 +62,68 @@ void MidLevel()
 
 void HighLevel()
 {
-	wchar_t  entering[] = L"   тестируем.предложение.Testing sentence.";
+	wchar_t  entering[] = L"я учил английский вместе с Егором.на улице идёт дождь.тихо...шёл снег.упал лист.есенин повесился...";
+	char originalArray[100] = "";
 
-	char array[100] = "";
-	CharToOem(entering, array);
+	CharToOem(entering, originalArray);
 
-	char temporary[200] = "";
+	char properArray[200] = "";
 	int prvsCopiedSymbol = 0;
-	for (size_t i = 0; i < strlen(array); i++)
+	for (size_t i = 0; i < strlen(originalArray); i++)
 	{
 		/*If punctuation is found*/
-		if (array[i] == '.' || array[i] == '!' || array[i] == '?')
+		if (originalArray[i] == '.' || originalArray[i] == '!' || originalArray[i] == '?')
 		{
-			if (array[i + 1] != ' ')
+			if (originalArray[i + 1] != ' ' && (originalArray[i + 1] != '.' || originalArray[i+1] == '!' || originalArray[i+1] == '?'))
 			{
-				/*If there's no space after punctuation, copy this puntuation, then add space*/
-				strncat_s(temporary, &array[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
-				strcat_s(temporary, " ");
+				/*If there's no space after punctuation AND it's not another punctuation, copy this puntuation, then add space*/
+				strncat_s(properArray, &originalArray[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
+				strcat_s(properArray, " ");
 				prvsCopiedSymbol = i + 1; //keep track of previous change
 			}
 		}
 		else
 		{
-			/*If current symbol in not a punctuation, copy it to temporary array and keep track of symbols*/
-			strncat_s(temporary, &array[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
+			/*Otherwise copy this symbol to temporary array and keep track of symbols*/
+			strncat_s(properArray, &originalArray[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
 			prvsCopiedSymbol = i + 1;
 		}
 
 	}
-	for (int i = 0; i < strlen(temporary); i++)
+	/*Again parse array to find lowercase letters after punctuation*/
+	for (int i = 0; i < strlen(properArray); i++)
 	{
-		if (temporary[i] == '.' || i == 0)
+		/*if punctuation is found*/
+		if (properArray[i] == '.' || properArray[i] == '!' || properArray[i] == '?' || i == 0)
 		{
-			while (temporary[i] == ' ' || temporary[i] == '.')
+			/*skip all punctuation after this one*/
+			while (properArray[i] == ' ' || properArray[i] == '.' || properArray[i] == '!' || properArray[i] == '?')
 			{
 				i++;
 			}
-			if (temporary[i] >= 97 && temporary[i] <= 122)
+
+			/*When temporary[i] isnt punctuation, check if it a lowercase letter. If so, transform it to uppercase.*/
+			if (properArray[i] >= 97 && properArray[i] <= 122)
 			{
-				temporary[i] -= (char)32;
+				properArray[i] -= (char)32;
 			}
-			else if (temporary[i] >= -96 && temporary[i] <= -81)
+			else if (properArray[i] >= -96 && properArray[i] <= -81)
 			{
-				temporary[i] -= (char)32;
+				properArray[i] -= (char)32;
 			}
-			else if (temporary[i] >= -32 && temporary[i] <= -17)
+			else if (properArray[i] >= -32 && properArray[i] <= -17)
 			{
-				temporary[i] -= (char)80;
+				properArray[i] -= (char)80;
 			}
-			else if (temporary[i] == -15)
+			else if (properArray[i] == -15)
 			{
-				temporary[i]--;
+				properArray[i]--;
 			}
 		}
 
 	}
 
-	cout << temporary << endl;
+	cout << properArray << endl;
 
 }
 
