@@ -62,19 +62,19 @@ void MidLevel()
 
 void HighLevel()
 {
-	wchar_t  entering[] = L"я учил английский вместе с Егором.на улице идёт дождь.тихо...шёл снег.упал лист.есенин повесился...";
-	char originalArray[100] = "";
+	wchar_t  entering[] = L"Всем...привет.меня зов.Ут Денис.У.меня        есть... друг Миша.";
+	char originalArray[500] = "";
 
 	CharToOem(entering, originalArray);
 
-	char properArray[200] = "";
+	char properArray[1000] = "";
 	int prvsCopiedSymbol = 0;
 	for (size_t i = 0; i < strlen(originalArray); i++)
 	{
 		/*If punctuation is found*/
-		if (originalArray[i] == '.' || originalArray[i] == '!' || originalArray[i] == '?')
+		if (originalArray[i] == '.' || originalArray[i] == '!' || originalArray[i] == '?'|| originalArray[i] == ',')
 		{
-			if (originalArray[i + 1] != ' ' && (originalArray[i + 1] != '.' || originalArray[i+1] == '!' || originalArray[i+1] == '?'))
+			if (originalArray[i + 1] != ' ' && (originalArray[i + 1] != '.' || originalArray[i+1] == '!' || originalArray[i+1] == '?'|| originalArray[i+1] == ','))
 			{
 				/*If there's no space after punctuation AND it's not another punctuation, copy this puntuation, then add space*/
 				strncat_s(properArray, &originalArray[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
