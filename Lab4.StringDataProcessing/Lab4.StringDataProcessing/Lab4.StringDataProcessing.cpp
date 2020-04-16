@@ -7,6 +7,8 @@
 
 using namespace std;
 
+#pragma warning(disable:4996)
+
 void baseLevel()
 {
 	string entering = "";
@@ -23,7 +25,7 @@ void baseLevel()
 	{
 		cout << "! appears more frequently\n";
 	}
-	else if(counter < 0)
+	else if (counter < 0)
 	{
 		cout << "? appears more frequently\n";
 	}
@@ -35,12 +37,50 @@ void baseLevel()
 
 void midLevel()
 {
+	string entering = "";
+	cout << "Enter your string: ";
+	cin >> entering;
 
+	for (int i = 0; i < strlen(&entering[0]); i++)
+	{
+		entering[i] -= 1;
+	}
+	cout << entering << endl;
 }
 
 void highLevel()
 {
+	string first = "", second = "", result = "";
 
+	cout << "Enter first string: ";
+	getline(cin >> ws, first);
+
+	cout << "Enter second string: ";
+	getline(cin >> ws, second);
+
+	for (int i = 0; i < strlen(&first[0]); i++)
+	{
+		for (int j = 0; j < strlen(&second[0]); j++)
+		{
+			if (first[i] == second[j])
+			{
+				bool isNew = true;
+				for (int c = 0; c < strlen(&result[0]); c++)
+				{
+					if (first[i] == result[c])
+					{
+						isNew = false;
+					}
+				}
+				if (isNew)
+				{
+					result += first[i];
+					break;
+				}
+			}
+		}
+	}
+	cout << "Matching symbols: " << result << endl;
 }
 
 int main()
