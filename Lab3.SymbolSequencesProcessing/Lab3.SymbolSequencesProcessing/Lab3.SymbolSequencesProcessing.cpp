@@ -4,6 +4,7 @@
 #include <string>
 #include <string.h>
 #include <windows.h>
+#include "Lab3.SymbolSequencesProcessing.h"
 //#include <ctype.h>
 
 using namespace std;
@@ -59,10 +60,14 @@ void MidLevel()
 	}
 }
 
+bool isPunct(char c)
+{
+	return c == '.' || c == '!' || c == '?' || c == ',' || c == ';';
+}
 
 void HighLevel()
 {
-	wchar_t  entering[] = L"Всем...привет.меня зов.Ут Денис.У.меня        есть... друг Миша.";
+	wchar_t  entering[] = L"Всем...привет.меня зов.    Ут Денис.У.меня        есть... друг Миша.";
 	char originalArray[500] = "";
 
 	CharToOem(entering, originalArray);
@@ -72,9 +77,9 @@ void HighLevel()
 	for (size_t i = 0; i < strlen(originalArray); i++)
 	{
 		/*If punctuation is found*/
-		if (originalArray[i] == '.' || originalArray[i] == '!' || originalArray[i] == '?'|| originalArray[i] == ',')
+		if (isPunct(originalArray[i]))
 		{
-			if (originalArray[i + 1] != ' ' && (originalArray[i + 1] != '.' || originalArray[i+1] == '!' || originalArray[i+1] == '?'|| originalArray[i+1] == ','))
+			if (originalArray[i + 1] != ' ' && !isPunct(originalArray[i+1]))
 			{
 				/*If there's no space after punctuation AND it's not another punctuation, copy this puntuation, then add space*/
 				strncat_s(properArray, &originalArray[prvsCopiedSymbol], i - prvsCopiedSymbol + 1);
