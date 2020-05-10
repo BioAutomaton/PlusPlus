@@ -5,6 +5,9 @@
 #include <string.h>
 #include <windows.h>
 #include <fstream>
+#include <io.h>
+#include "Lab5.TextFiles.h"
+#include <sstream>
 
 using namespace std;
 
@@ -15,6 +18,8 @@ struct Date {
 	short month;
 	short year;
 	bool isCorrect();
+	void getDate();
+	string printDate();
 };
 
 bool Date::isCorrect()
@@ -78,6 +83,31 @@ bool Date::isCorrect()
 
 	return result;
 }
+
+void Date::getDate()
+{
+
+	/*Birthday*/
+	/*Edit numbers according to needs*/
+
+	do
+	{
+		day = rand() % 31 + 1;
+		month = rand() % 12 + 1;
+		year = rand() % 52 + 1950;
+	} while (!isCorrect());
+}
+string Date::printDate()
+{
+	string date = "";
+	date += to_string(day);
+	date += ".";
+	date += to_string(month);
+	date += ".";
+	date += to_string(year);
+	return date;
+}
+
 
 /*Struct to store name data*/
 struct Name
@@ -273,6 +303,7 @@ int getInteger(const char* text)
 	return number;
 }
 
+
 struct ManequinnMaker
 {
 	Date birthday;
@@ -283,7 +314,9 @@ struct ManequinnMaker
 	float height = 0, weight = 0;
 
 	void getInfo();
+	string printInfo();
 };
+
 
 void ManequinnMaker::getInfo()
 {
@@ -317,50 +350,494 @@ void ManequinnMaker::getInfo()
 		break;
 	}
 
-	/*Birthday*/
-
-	do
-	{
-		birthday.day = rand() % 31 + 1;
-		birthday.month = rand() % 12 + 1;
-		birthday.year = rand() % 52 + 1950;
-	} while (!birthday.isCorrect());
 
 	/*Height and weight*/
 
 	height = (float)(rand() % 40 + 160) / 100;
 	weight = (float)(rand() % 400 + 600) / 10;
 
+	/*Birthday*/
+
+	birthday.getDate();
+
+	/*Address*/
+
+	address.getAddress();
+
+	/*Name*/
+
+	name.randomizer(gender);
+
+
+}
+
+string ManequinnMaker::printInfo()
+{
+	string info = "";
+
+	info += "Name: " + name.firstName + " " + name.middleName + " " + name.lastName + "\n";
+	info += "Birthday: " + birthday.printDate() + "\n";
+	info += nationality + " " + gender + "\n";
+	info += "Height: " + to_string(height) + " Meters" + "\n";
+	info += "Weight: " + to_string(weight) + " Kilos" + "\n";
+	info += "Address: " + address.country + ", " + address.city + " City, " + address.district + " district, " + address.street + " str, " + to_string(address.house) + ", apts No " + to_string(address.apartment);
+	info += "\nZIP-code: " + address.ZIPcode;
+	info += "\n\n---\n\n";
+
+	return info;
 }
 
 void baseLevel()
 {
-
-}
-
-void midLevel()
-{
+	int numberOfMM;
+	numberOfMM = getInteger("Enter number of Mannequinn makers to generate info about: ");
 	ofstream fout;
-	fout.open("FirstInput.txt");
-	fout << "Tell the truth. That's the only way to make the world a better place.";
+	ifstream fin;
+
+	string path = "C:\\lab5samples\\BaseLevel\\";
+	ManequinnMaker* database = new ManequinnMaker[numberOfMM];
+	fout.open(path + "DBimport.txt");
+	for (int i = 0; i < numberOfMM; i++)
+	{
+		fout << "Mannequinn Maker #" << i + 1 << ":\n\n";
+		database[i].getInfo();
+		fout << database[i].printInfo();
+	}
 	fout.close();
 
-	fout.open("SecondInput.txt");
-	fout << "Adapt responsibility. Pick something worth doing and do it, so that your life could be meaningful.";
-	fout.close();
+
+	fin.open(path + "DBimport.txt");
+
+	if (fin.is_open())
+	{
+		string data;
+		while (getline(fin, data))
+		{
+			cout << data << endl;
+		}
+	}
 
 
-	/*fout.open("SecondInput.txt");
-	fout.open("Output.txt");*/
+	fin.close();
+	fout.open(path + "TheMostYoungMM.txt");
+	ManequinnMaker max;
+	for (int i = 0; i < numberOfMM; i++)
+	{
+
+		if (database[i].gender == "Female")
+		{
+			if (database[i].birthday.year > max.birthday.year)
+			{
+				max = database[i];
+			}
+			else if (database[i].birthday.year == max.birthday.year)
+			{
+				if (database[i].birthday.month > max.birthday.month)
+				{
+					max = database[i];
+				}
+				else if (database[i].birthday.month == max.birthday.month)
+				{
+					if (database[i].birthday.day > max.birthday.day)
+					{
+						max = database[i];
+					}
+				}
+			}
+		}
+	}
+	fout << max.printInfo();
+	cout << "Younger one: \n\n" << max.printInfo();
+
+	delete[] database;
 }
+
+void midLevel() //Task: to merge 2 text files
+{
+	const int NumberOfFilesToMerge = 2;
+	string filepaths[NumberOfFilesToMerge + 1];
+
+	for (int i = 0; i < NumberOfFilesToMerge; i++)
+	{
+		filepaths[i] = "C:\\lab5samples\\MidLevel\\input" + to_string(i + 1) + ".txt";
+	}
+	filepaths[NumberOfFilesToMerge] = "C:\\lab5samples\\MidLevel\\Result.txt";
+
+	/*Entering simulation (create files and fill them up).*/
+
+	ofstream fout;
+	string samples[12] =
+	{
+		"Stand up straight with your shoulders back. ",
+		"Treat yourself like someone you are responsible for helping. ",
+		"Befriend people who want the best for you. ",
+		"Compare yourself to who you were yesterday, not the person someone are today. ",
+		"Do not let your children do anything that makes you dislike them. ",
+		"Set your house in perfect order before you criticise the world. ",
+		"Pursue what is meaningful, not what is expedient. ",
+		"Tell the truth. Or at least do not lie. ",
+		"Assume the person you are listening to knows something you do not. ",
+		"Be precise in your speech. ",
+		"Do not bother children while they are skateboarding. ",
+		"Pet a cat when you encounter one in the street. "
+	};
+
+	for (int i = 0; i < NumberOfFilesToMerge; i++)
+	{
+		fout.open(filepaths[i]);
+		fout << samples[rand() % 12];
+		fout.close();
+	}
+
+	/*Scanning*/
+	string scanresult;
+	ifstream fin;
+	for (int i = 0; i < NumberOfFilesToMerge; i++)
+	{
+		char scan[200];
+		fin.open(filepaths[i]);
+		fin.getline(scan, 200);
+		fin.close();
+		scanresult += scan;
+		cout << filepaths[i] << ": " << scan << endl;
+	}
+
+	/*Output*/
+	fout.open(filepaths[NumberOfFilesToMerge]);
+	fout << scanresult;
+	cout << filepaths[NumberOfFilesToMerge] << scanresult;
+	fout.close();
+
+}
+
+class Matrix
+{
+public:
+
+	static const int dimensions = 3;
+	double values[dimensions][dimensions] = { NULL };
+	double determinant = 0;
+
+	Matrix()
+	{
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				values[rows][cols] = (double) 1 + rand() % 25;
+			}
+		}
+		determinant = GetDeterminant();
+	}
+
+	Matrix(int a)
+	{
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				values[rows][cols] = rows == cols ? (a == 0 ? 0 : a) : 0;
+			}
+		}
+		determinant = GetDeterminant();
+	}
+
+	double GetDeterminant()
+	{
+		double det = 0;
+
+		det += values[0][0] * values[1][1] * values[2][2];
+		det += values[0][1] * values[1][2] * values[2][0];
+		det += values[1][0] * values[2][1] * values[0][2];
+
+		det -= values[2][0] * values[1][1] * values[0][2];
+		det -= values[2][1] * values[1][2] * values[0][0];
+		det -= values[1][0] * values[0][1] * values[2][2];
+
+		return det;
+	}
+
+	Matrix GetReversed()
+	{
+		Matrix temp;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				temp.values[rows][cols] = values[rows][cols];
+			}
+		}
+
+		temp = temp.Transpose().Minors() / determinant;
+		
+		return temp;
+	}
+
+	bool isReversed(Matrix compare)
+	{
+
+	}
+
+	string printMatrix()
+	{
+		string output = "";	
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				output += to_string(values[rows][cols]) + ",";
+			}
+			output += "\n";
+		}
+
+		return output;
+	}
+
+	Matrix Transpose()
+	{
+		Matrix temp;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				temp.values[rows][cols] = values[rows][cols];
+			}
+		}
+		
+		for (int rows = 0; rows < dimensions - 1; rows++)
+		{
+			for (int cols = rows + 1; cols < dimensions; cols++)
+			{
+				swap(temp.values[cols][rows], temp.values[rows][cols]);
+			}
+		}
+
+		temp.determinant = GetDeterminant();
+		return temp;
+	}
+
+	Matrix Minors()
+	{
+		Matrix temp;
+
+		temp.values[0][0] = (values[1][1] * values[2][2] - values[2][1] * values[1][2]);
+		temp.values[0][1] = (values[1][0] * values[2][2] - values[2][0] * values[1][2]);
+		temp.values[0][2] = (values[1][0] * values[2][1] - values[2][0] * values[1][1]);
+		temp.values[1][0] = (values[0][1] * values[2][2] - values[2][1] * values[0][2]);
+		temp.values[1][1] = (values[0][0] * values[2][2] - values[2][0] * values[0][2]);
+		temp.values[1][2] = (values[0][0] * values[2][1] - values[2][0] * values[0][1]);
+		temp.values[2][0] = (values[0][1] * values[1][2] - values[1][1] * values[0][2]);
+		temp.values[2][1] = (values[0][0] * values[1][2] - values[1][0] * values[0][2]);
+		temp.values[2][2] = (values[0][0] * values[1][1] - values[1][0] * values[0][1]);
+
+		temp.values[0][1] *= -1;
+		temp.values[1][0] *= -1;
+		temp.values[1][2] *= -1;
+		temp.values[2][1] *= -1;
+
+		return temp;
+	}
+
+	bool operator ==(Matrix second)
+	{
+		bool result = true;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				if (abs(values[rows][cols] - second.values[rows][cols]) > 0.001 )
+				{
+					result = false;
+					return result;
+				}
+			}
+		}
+
+		return result;
+	}
+
+	Matrix operator *(Matrix multiplier)
+	{
+		Matrix temp;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				double sum = 0;
+				for (int t = 0; t < dimensions; t++) {
+					sum += values[rows][t] * multiplier.values[t][cols];
+				}
+				temp.values[rows][cols] = sum;
+			}
+		}
+
+		temp.determinant = GetDeterminant();
+		return temp;
+	}
+	Matrix operator *(double multiplier)
+	{
+		Matrix temp;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				temp.values[rows][cols] = values[rows][cols] * multiplier;
+			}
+		}
+
+		temp.determinant = GetDeterminant();
+		return temp;
+	}
+	
+	Matrix operator /(double multiplier)
+	{
+		Matrix temp;
+
+		for (int rows = 0; rows < dimensions; rows++)
+		{
+			for (int cols = 0; cols < dimensions; cols++)
+			{
+				temp.values[rows][cols] = values[rows][cols] / multiplier;
+			}
+		}
+
+		temp.determinant = GetDeterminant();
+		return temp;
+	}
+
+
+};
+
 
 void highLevel()
 {
 
+	int NumberOfMatrix;
+	NumberOfMatrix = getInteger("Enter number of matrices to generate: ");
+	ofstream fout1;
+	ofstream fout2;
+	ifstream fin;
+
+	Matrix* array = new Matrix[NumberOfMatrix];
+	for (int matrix = 0; matrix < NumberOfMatrix; matrix++)
+	{
+		array[matrix] = Matrix();
+	}
+
+	/*Database import simulation*/
+
+	fout1.open("C:\\lab5samples\\HighLevel\\Matrices.csv");
+	for (int matrix = 0; matrix < NumberOfMatrix; matrix++)
+	{
+		fout1 << "Matrix #" << matrix + 1 << ": \n";
+		if (matrix > 1)
+		{
+			fout1 << (rand() % 4 > 0 ? array[matrix].printMatrix() : array[matrix - 1].GetReversed().printMatrix());
+		}
+		else
+		{
+			fout1 << array[matrix].printMatrix();
+		}
+		
+	}
+
+	fout1.close();
+
+	delete[] array;
+
+	Matrix* import = new Matrix[NumberOfMatrix];
+	for (int matrix = 0; matrix < NumberOfMatrix; matrix++)
+	{
+		import[matrix] = Matrix(0);
+	}
+
+	fin.open("C:\\lab5samples\\HighLevel\\Matrices.csv");
+	string data;
+	for (int matrix = 0; matrix < NumberOfMatrix; matrix++)
+	{
+		for (int rows = 0; rows < import[matrix].dimensions; rows++)
+		{
+			int cols = 0;
+			do
+			{
+				getline(fin, data);
+			} while (!isdigit(data[0]) && data[0] != '-');
+				string number;
+				int i = 0;
+				while (i < data.length()) {
+					number = "";
+					//int i = 0;
+					while(data[i] != ',')
+					{
+						number += data[i++];
+					}
+					i++;
+					//data.erase(0,i + 1);
+					import[matrix].values[rows][cols++] = stod(&number[0]);
+				
+			}
+		}
+		import[matrix].determinant = import[matrix].GetDeterminant();
+	}
+	fin.close();
+	bool* isIrreversible = new bool[NumberOfMatrix];
+
+	fout1.open("C:\\lab5samples\\HighLevel\\OutReversible.csv");
+	fout2.open("C:\\lab5samples\\HighLevel\\OutIrreversible.csv");
+	for (int matrix = 0; matrix < NumberOfMatrix; matrix++)
+	{
+		if (import[matrix].determinant == 0)
+		{
+			fout2 << "Matrix #" << matrix + 1 << ":\n" << import[matrix].printMatrix() << endl;
+		}
+		else
+		{
+			isIrreversible[matrix] = true;
+			Matrix reverse = import[matrix].GetReversed();
+			for (int compare = 0; compare < NumberOfMatrix; compare++)
+			{
+				if (reverse == import[compare])
+				{
+					fout1 << "Matrix #" << matrix + 1 << ":\n" << import[matrix].printMatrix();
+					fout1 << "X\n";
+					fout1 << "Matrix #" << compare + 1 << ":\n" << import[compare].printMatrix();
+					fout1 << "=\n";
+					fout1 << (import[matrix] * import[compare]).printMatrix() << endl;
+					fout1 << "-----\n\n";
+					isIrreversible[matrix] = false;
+					isIrreversible[compare] = false;
+					break;
+				}
+				
+			}
+
+			if (isIrreversible[matrix] == true)
+			{
+				fout2 << "Matrix #" << matrix + 1 << ":\n" << import[matrix].printMatrix() << endl;
+			}
+		}
+
+	}
+	fout1.close();
+	fout2.close();
+	delete[] import;
+	delete[] isIrreversible;
 }
 
 int main()
 {
+
+	CreateDirectory(L"c:\\lab5samples", NULL);
+	CreateDirectory(L"c:\\lab5samples\\BaseLevel", NULL);
+	CreateDirectory(L"c:\\lab5samples\\MidLevel", NULL);
+	CreateDirectory(L"c:\\lab5samples\\HighLevel", NULL);
+
 	int select = 0;
 	do {
 		srand(time(NULL));
@@ -399,3 +876,4 @@ int main()
 		}
 	} while (select != 0);
 }
+
