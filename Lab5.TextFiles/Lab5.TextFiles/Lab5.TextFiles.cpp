@@ -772,13 +772,11 @@ void highLevel()
 				int i = 0;
 				while (i < data.length()) {
 					number = "";
-					//int i = 0;
 					while(data[i] != ',')
 					{
 						number += data[i++];
 					}
 					i++;
-					//data.erase(0,i + 1);
 					import[matrix].values[rows][cols++] = stod(&number[0]);
 				
 			}
