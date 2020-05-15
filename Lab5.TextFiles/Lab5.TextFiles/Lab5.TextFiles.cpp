@@ -839,7 +839,7 @@ int main()
 	int select = 0;
 	do {
 		srand(time(NULL));
-		cout << "Variant 22. Lab 4.\nSelect difficulty level\n";
+		cout << "Variant 22. Lab 5.\nSelect difficulty level\n";
 		cout << "1 - Base level\n2 - Mid level \n3 - High level\n";
 		cout << "Or enter 0 to exit.\n";
 		bool isError = false;
