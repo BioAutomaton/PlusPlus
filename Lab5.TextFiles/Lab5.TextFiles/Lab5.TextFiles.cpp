@@ -317,7 +317,6 @@ struct ManequinnMaker
 	string printInfo();
 };
 
-
 void ManequinnMaker::getInfo()
 {
 	/*Gender*/
@@ -574,10 +573,6 @@ public:
 		return temp;
 	}
 
-	bool isReversed(Matrix compare)
-	{
-
-	}
 
 	string printMatrix()
 	{
@@ -710,6 +705,8 @@ public:
 		temp.determinant = GetDeterminant();
 		return temp;
 	}
+
+	private:
 
 
 };
