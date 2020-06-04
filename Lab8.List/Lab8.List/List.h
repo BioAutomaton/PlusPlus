@@ -13,7 +13,6 @@ public:
 	void push_back(T data);
 	void pop_front();
 	void pop_back();
-	void InsertBefore(T data, int index);
 	void erase(int index);
 
 	T& operator [] (const int index);
@@ -65,17 +64,20 @@ void List <T>::push_front(T data)
 	if (Size > 1)
 	{
 		Node <T>* temp = head; //указывает на начало списка
-		head = new Node <T>(data, head); //в начало списка добавл€ем элемент
-		temp->pPrev = head; //элементу, идущему перед temp, присваиваетс€ ссылка на начало списка
+		head = new Node <T>(data, temp, tail); //в начало списка добавл€ем элемент
+	   	temp->pPrev = head; //элементу, идущему перед temp, присваиваетс€ ссылка на начало списка
+		tail->pNext = head;
 	}
 	else if (Size == 1)
 	{
-		head = new Node <T>(data, head); //добавл€ем элемент
-		tail->pPrev = this->head; //предыдущий элемент у tail = head
+		head = new Node <T>(data, tail, tail); //добавл€ем элемент
+		tail->pPrev = tail->pNext = this->head; //предыдущий и следующий элемент у tail = head
 	}
 	else if (Size == 0)
 	{
-		head = tail = new Node <T>(data, head, tail); //добавл€ем новый элемент, €вл€ющийс€ "головой" и "хвостом списка"
+		head = tail = new Node <T>(data); //добавл€ем новый элемент, €вл€ющийс€ "головой" и "хвостом списка"
+		head->pNext = head;
+		head->pPrev = head;
 	}
 	Size++;
 }
@@ -108,12 +110,14 @@ void List <T>::pop_front()
 	{
 		Node <T>* temp = head;
 		head = head->pNext;
+		head->pPrev = tail;
+		tail->pNext = head;
 		delete temp;
 	}
 	else if (Size == 1)
 	{
 		Node <T>* temp = head;
-		head = tail = head->pNext;
+		head = tail = nullptr;
 		delete temp;
 	}
 	Size--;
@@ -126,42 +130,33 @@ void List <T>::pop_back()
 	{
 		Node <T>* temp = tail; //создаем временный объект, содержащий ссылку на tail 
 		tail = tail->pPrev; //tail присваиваем ссылку на элемент, идущий перед ним
+		tail->pNext = head;
+		head->pPrev = tail;
 		delete temp;
 	}
 	else if (Size == 1)
 	{
 		Node <T>* temp = tail;
-		head = tail = tail->pPrev; //если в списке 1 элемент, то head = tail
+		head = tail = nullptr; //если в списке 1 элемент, то head = tail = nullptr
 		delete temp;
 	}
 	Size--;
 }
 
-template <typename T>
-void List <T>::InsertBefore(T data, int index)
-{
-	if (index == 0)
-		push_front(data);
-	else
-	{
-		Node<T>* current = this->head;
-		for (int i = 0; i < index - 1; i++) //цикл выполн€етс€ пока current не будет указывать на элемент, предшествующий элементу с выбранным индексом
-		{
-			current = current->pNext; //текущему элементу присваиваем адрес следующего
-		}
-		Node<T>* newNode = new Node<T>(data, current->pNext, current); //вставл€ем элемент
-		current->pNext = newNode; //присваиваем полю "адрес" старого элемента адрес на новый элемент
-		Node<T>* next = newNode->pNext; //указателю next присваиваем адрес следующего элемента, после вставленного в список
-		next->pPrev = newNode; //предыдущему элементу у next приваиваетс€ адрес на вставленный элемент
-	}
-	Size++;
-}
 
 template <typename T>
 void List <T>::erase(int index)
 {
 	if (index == 0)
+	{
 		pop_front();
+		return;
+	}
+	else if (index + 1 == Size)
+	{
+		pop_back();
+		return;
+	}
 	else if (index + 1 < Size)
 	{
 		Node<T>* current = this->head;

@@ -99,26 +99,42 @@ void midLevel()
 			i++;		
 		}
 	}
-
+	//data.~Forward_list();
 
 }
 
 void highLevel()
 {
-	const int size = 10;
+	const int size = 5;
 	List<int> data;
 	for (int i = 0; i < size; i++)
 	{
-		data.push_front(1 + rand() % 10);
+		data.push_front(i);
 	}
+	data[4] = 10;
 
 	for (int i = 0; i < size; i++)
 	{
 		cout << data[i] << endl;
 	}
-}
 
-int main()
+	cout << endl;
+	for (int i = 0; i < size; i++)
+	{
+		if (data[i] == 10)
+		{
+			data.erase(i);
+			break;
+		}
+	}
+
+	for (int i = 0; i < data.getSize(); i++)
+	{
+		cout << data[i] << endl;
+	}
+} 
+
+int main() 
 {
 	CreateDirectory(L"c:\\lab8samples", NULL);
 	CreateDirectory(L"c:\\lab8samples\\1.BaseLevel", NULL);

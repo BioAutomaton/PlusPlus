@@ -20,7 +20,11 @@ private:
 	public:
 		Node* pNext;
 		T data; //поле обобщённого типа
-		Node(T data = T(), Node* pNext = nullptr);
+		Node(T data = T(), Node* pNext = nullptr) //по умолчанию указатель на следующий элемент указывает на NULL
+		{
+			this->data = data; //присваиваем входящие параметры полям класса Node
+			this->pNext = pNext;
+		}
 	};
 	//поля класса forward_list
 	int Size;
@@ -47,7 +51,7 @@ void Forward_list<T>::pop_front()
 	head = head->pNext; //присваиваем элементу из начала списка элемент, идущий следом за ним
 	delete temp; //удаляем временный объект
 	Size--; //уменьшаем размер списка на единицу
-}
+}	
 
 template<typename T>
 void Forward_list<T>::clear()
