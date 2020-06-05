@@ -73,7 +73,7 @@ void baseLevel()
 	int sum = 0;
 	while (!BookStore.empty())
 	{
-		cout <<  BookStore.top().print() << endl << endl;
+		cout << BookStore.top().print() << endl << endl;
 		sum += BookStore.top().price;
 		BookStore.pop();
 	}
@@ -100,13 +100,13 @@ void midLevel()
 	}
 	temp.pop();
 	cout << endl << endl;
-	for (int i = 0; i < size -1; i++)
+	for (int i = 0; i < size - 1; i++)
 	{
 		data.push(temp.top());
 		temp.pop();
 	}
 	string max = "";
-	for (int i = 0; i < size-1; i++)
+	for (int i = 0; i < size - 1; i++)
 	{
 		cout << data.top() << endl;
 		if (data.top().length() > max.length())
@@ -119,9 +119,56 @@ void midLevel()
 	cout << endl << endl;
 	cout << "Max string: " << max << endl << endl;
 }
+
+bool isOperation(char c)
+{
+	const char operations[] = { '+', '-', '*' };
+	for (int i = 0; i < sizeof operations; i++)
+	{
+		if (c == operations[i])
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 void highLevel()
 {
 
+	string polska = "123*+";
+	stack<int> pshepshe;
+	for (int i = 0; i < polska.length(); i++)
+	{
+		if (isdigit(polska[i]))
+		{
+			pshepshe.push(polska[i]-'0');
+		}
+		else if (isOperation(polska[i]))
+		{
+			int first = pshepshe.top();
+			pshepshe.pop();
+			int second = pshepshe.top();
+			pshepshe.pop();
+			switch (polska[i])
+			{
+			case '+':
+				pshepshe.push(first + second);
+				break;
+			case '-':
+				pshepshe.push(first - second);
+				break;
+			case '*':
+				pshepshe.push(first * second);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	cout << "Result: " << pshepshe.top() << endl;
 }
 
 int main()
