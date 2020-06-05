@@ -136,11 +136,6 @@ void highLevel()
 
 int main() 
 {
-	CreateDirectory(L"c:\\lab8samples", NULL);
-	CreateDirectory(L"c:\\lab8samples\\1.BaseLevel", NULL);
-	CreateDirectory(L"c:\\lab8samples\\2.MidLevel", NULL);
-	CreateDirectory(L"c:\\lab8samples\\3.HighLevel", NULL);
-
 	int select = 0;
 	do {
 		srand(time(NULL));
