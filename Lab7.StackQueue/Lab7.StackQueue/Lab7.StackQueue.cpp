@@ -83,10 +83,41 @@ void baseLevel()
 
 void midLevel()
 {
-
-	const int size = 10;
+	const int size = 4;
 	stack<string> data;
-	for
+	data.push("111");
+	data.push("2");
+	data.push("sdf4");
+	data.push("bye");
+
+	stack<string> temp;
+
+	for (int i = 0; i < size; i++)
+	{
+		cout << data.top() << endl;
+		temp.push(data.top());
+		data.pop();
+	}
+	temp.pop();
+	cout << endl << endl;
+	for (int i = 0; i < size -1; i++)
+	{
+		data.push(temp.top());
+		temp.pop();
+	}
+	string max = "";
+	for (int i = 0; i < size-1; i++)
+	{
+		cout << data.top() << endl;
+		if (data.top().length() > max.length())
+		{
+			max = data.top();
+		}
+		temp.push(data.top());
+		data.pop();
+	}
+	cout << endl << endl;
+	cout << "Max string: " << max << endl << endl;
 }
 void highLevel()
 {
