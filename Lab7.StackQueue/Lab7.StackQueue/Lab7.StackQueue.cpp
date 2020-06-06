@@ -1,13 +1,108 @@
 ﻿#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
-#include <stack>
+//#include <stack>
 #include <time.h>
 
 using namespace std;
 
 
 #pragma warning(disable:4996)
+
+
+// Class for stack
+template <class X>
+class stack
+{
+private:
+	X* array;
+	int top;
+	int capacity;
+
+public:
+	stack(int size = 10);	// constructor
+
+	void push(X);
+	X pop();
+	X peek();
+
+	int size();
+	bool isEmpty();
+	bool isFull();
+
+	// destructor
+	~stack() {
+		delete[] array;
+	}
+};
+
+// Constructor to initialize stack
+template <class X>
+stack<X>::stack(int size)
+{
+	array = new X[size];
+	capacity = size;
+	top = -1;
+}
+
+// function to add an element x in the stack
+template <class X>
+void stack<X>::push(X x)
+{
+	if (isFull())
+	{
+		cout << "Stack Overflow\n";
+		exit(EXIT_FAILURE);
+	}
+
+	array[++top] = x;
+}
+
+// function to pop top element from the stack
+template <class X>
+X stack<X>::pop()
+{
+	// check for stack underflow
+	if (isEmpty())
+	{
+		cout << "Stack underflow\n";
+		exit(EXIT_FAILURE);
+	}
+
+	// decrease stack size by 1 and (optionally) return the popped element
+	return array[top--];
+}
+
+// function to return top element in a stack
+template <class X>
+X stack<X>::peek()
+{
+	if (!isEmpty())
+		return array[top];
+	else
+		exit(EXIT_FAILURE);
+}
+
+// Utility function to return the size of the stack
+template <class X>
+int stack<X>::size()
+{
+	return top + 1;
+}
+
+// Utility function to check if the stack is empty or not
+template <class X>
+bool stack<X>::isEmpty()
+{
+	return top == -1;	// or return size() == 0;
+}
+
+// Utility function to check if the stack is full or not
+template <class X>
+bool stack<X>::isFull()
+{
+	return top == capacity - 1;	// or return size() == capacity;
+}
 
 /*Function to foolproof numeric entering*/
 int getInteger(const char* text)
@@ -69,12 +164,11 @@ void baseLevel()
 		BookStore.push(temp);
 	}
 
-
 	int sum = 0;
-	while (!BookStore.empty())
+	while (!BookStore.isEmpty())
 	{
-		cout << BookStore.top().print() << endl << endl;
-		sum += BookStore.top().price;
+		cout << BookStore.peek().print() << endl << endl;
+		sum += BookStore.peek().price;
 		BookStore.pop();
 	}
 
@@ -84,36 +178,36 @@ void baseLevel()
 void midLevel()
 {
 	const int size = 4;
-	stack<string> data;
+	stack<string> data(size);
 	data.push("111");
 	data.push("2");
 	data.push("sdf4");
 	data.push("bye");
 
-	stack<string> temp;
+	stack<string> temp(size);
 
 	for (int i = 0; i < size; i++)
 	{
-		cout << data.top() << endl;
-		temp.push(data.top());
+		cout << data.peek() << endl;
+		temp.push(data.peek());
 		data.pop();
 	}
 	temp.pop();
 	cout << endl << endl;
 	for (int i = 0; i < size - 1; i++)
 	{
-		data.push(temp.top());
+		data.push(temp.peek());
 		temp.pop();
 	}
 	string max = "";
 	for (int i = 0; i < size - 1; i++)
 	{
-		cout << data.top() << endl;
-		if (data.top().length() > max.length())
+		cout << data.peek() << endl;
+		if (data.peek().length() > max.length())
 		{
-			max = data.top();
+			max = data.peek();
 		}
-		temp.push(data.top());
+		temp.push(data.peek());
 		data.pop();
 	}
 	cout << endl << endl;
@@ -143,13 +237,13 @@ void highLevel()
 	{
 		if (isdigit(polska[i]))
 		{
-			pshepshe.push(polska[i]-'0');
+			pshepshe.push(polska[i] - '0');
 		}
 		else if (isOperation(polska[i]))
 		{
-			int first = pshepshe.top();
+			int first = pshepshe.peek();
 			pshepshe.pop();
-			int second = pshepshe.top();
+			int second = pshepshe.peek();
 			pshepshe.pop();
 			switch (polska[i])
 			{
@@ -168,7 +262,7 @@ void highLevel()
 		}
 	}
 
-	cout << "Result: " << pshepshe.top() << endl;
+	cout << "\nResult: " << pshepshe.peek() << endl << endl;
 }
 
 int main()
