@@ -173,6 +173,8 @@ void baseLevel()
 	}
 
 	cout << "Average price: " << sum / (double)size << endl << endl;
+
+	// BookStore.~stack(); error calling destructor
 }
 
 void midLevel()
@@ -212,6 +214,9 @@ void midLevel()
 	}
 	cout << endl << endl;
 	cout << "Max string: " << max << endl << endl;
+
+	//data.~stack(); error calling destructor
+	//temp.~stack(); error calling destructor
 }
 
 bool isOperation(char c)
@@ -261,8 +266,9 @@ void highLevel()
 			}
 		}
 	}
-
 	cout << "\nResult: " << pshepshe.peek() << endl << endl;
+
+	//pshepshe.~stack(); error calling destructor
 }
 
 int main()
